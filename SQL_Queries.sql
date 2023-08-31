@@ -1,21 +1,4 @@
 
--- Delhi Capital's total wins batting first
-(SELECT
-count(DISTINCT ID)
-FROM
-`Dataa.Matches`
-WHERE
-WinningTeam='Delhi Daredevils' OR WinningTeam='Delhi Capitals' AND WonBY='Runs');
-
--- Delhi Capital's total wins batting second
-(SELECT
-count(DISTINCT ID)
-FROM
-`Dataa.Matches`
-WHERE
-WinningTeam='Delhi Capitals' OR WinningTeam='Delhi Daredevils' AND WonBY='Wickets');
-
-
 -- All winning margins
 SELECT
 cast(margin as integer)
@@ -24,7 +7,6 @@ FROM
 WHERE margin != 'NA'
 ORDER BY 
 1 DesC;
-
 
 -- Average margin runs batting 1st 
 SELECT
@@ -47,17 +29,7 @@ FROM
 `Dataa.Matches`
 WHERE margin != 'NA' AND wonby='Wickets') as s;
 
-
--- Delhi average runs per location
-SELECT s1.city, s1.sm/s2.cnt
-FROM
-(SELECT b.BattingTeam, city, sum(total_run) as sm
-FROM `Dataa.BallByBall` as b inner join `Dataa.Matches` as m ON b.ID=m.ID WHERE b.BattingTeam='Delhi Daredevils' OR b.BattingTeam='Delhi Capitols' GROUP BY b.BattingTeam, city) as s1 inner join
-(SELECT city, count(DISTINCT ID) as cnt FROM `Dataa.Matches`  WHERE Team1='Delhi Capitals' OR Team1='Delhi Daredevils' OR Team2='Delhi Capitals' OR Team2='Delhi Daredevils' GROUP BY city) as s2 ON s1.city=s2.city;
-
-
-
--- Match wise total by teams
+-- Match-wise total by teams
 SELECT
 ID, BattingTeam, sum(total_run)
 FROM
@@ -80,21 +52,6 @@ ID, BattingTeam) as s1,
 `Dataa.Matches` as m
 WHERE s1.ID=m.ID
 ORDER BY 1;
-
-
--- Delhi Capital's average at all cities
-SELECT
-s1.city, round(total/s2.cnt,2)
-FROM
-(SELECT
-city, sum(total_score) as total
-FROM
-`Dataa.Score_per_match`
-WHERE BattingTeam="Delhi Daredevils" OR BattingTeam='Delhi Capitols'
-GROUP BY
- city) as s1, (SELECT city,count(ID) cnt FROM `Dataa.Score_per_match` WHERE BattingTeam="Delhi Daredevils" OR BattingTeam='Delhi Capitols'  GROUP BY city) as s2
- WHERE s1.city=s2.city
- ORDER BY 2;
 
 
 -- Count of 200+ scores per season
@@ -190,3 +147,46 @@ FROM
 `Dataa.Matches`
 GROUP BY
 1,2;
+
+
+
+-- Delhi Capital's total wins batting first
+(SELECT
+count(DISTINCT ID)
+FROM
+`Dataa.Matches`
+WHERE
+WinningTeam='Delhi Daredevils' OR WinningTeam='Delhi Capitals' AND WonBY='Runs');
+
+-- Delhi Capital's total wins batting second
+(SELECT
+count(DISTINCT ID)
+FROM
+`Dataa.Matches`
+WHERE
+WinningTeam='Delhi Capitals' OR WinningTeam='Delhi Daredevils' AND WonBY='Wickets');
+
+
+-- Delhi average runs per location
+SELECT s1.city, s1.sm/s2.cnt
+FROM
+(SELECT b.BattingTeam, city, sum(total_run) as sm
+FROM `Dataa.BallByBall` as b inner join `Dataa.Matches` as m ON b.ID=m.ID WHERE b.BattingTeam='Delhi Daredevils' OR b.BattingTeam='Delhi Capitols' GROUP BY b.BattingTeam, city) as s1 inner join
+(SELECT city, count(DISTINCT ID) as cnt FROM `Dataa.Matches`  WHERE Team1='Delhi Capitals' OR Team1='Delhi Daredevils' OR Team2='Delhi Capitals' OR Team2='Delhi Daredevils' GROUP BY city) as s2 ON s1.city=s2.city;
+
+
+
+
+-- Delhi Capital's average at all cities
+SELECT
+s1.city, round(total/s2.cnt,2)
+FROM
+(SELECT
+city, sum(total_score) as total
+FROM
+`Dataa.Score_per_match`
+WHERE BattingTeam="Delhi Daredevils" OR BattingTeam='Delhi Capitols'
+GROUP BY
+ city) as s1, (SELECT city,count(ID) cnt FROM `Dataa.Score_per_match` WHERE BattingTeam="Delhi Daredevils" OR BattingTeam='Delhi Capitols'  GROUP BY city) as s2
+ WHERE s1.city=s2.city
+ ORDER BY 2;
