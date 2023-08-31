@@ -21,12 +21,12 @@ This is the link to my Tableau Vizz - https://public.tableau.com/shared/PB6NCPKN
     > Converting Data Types
 
 ## What are the questions being answered?
-  > What are the winning margins?
-  > What are the mean margins in both innings?
-  > What are the maximum runs scored by each team?
-  > How many times the 200 mark was breached?
-  > What is the mean score of different venues?
-  > What is the collapse percentage?  
-  > What is the maximum score of batters?
-  > What was the total wins per season for all the teams?
-  > How did Delhi perform in the IPL?    
+> What are the winning margins?
+> What are the mean margins in both innings?
+> What are the maximum runs scored by each team?
+> How many times the 200 mark was breached?
+> What is the mean score of different venues?
+> What is the collapse percentage?
+> What is the maximum score of batters?
+> What was the total wins per season for all the teams?
+> How did Delhi perform in the IPL?    
